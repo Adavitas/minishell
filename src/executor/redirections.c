@@ -1,0 +1,53 @@
+#include "minishell.h"
+
+void	handle_redir_in(t_redir *redir)
+{
+	int	fd;
+
+	fd = open_infile(redir->file);
+	if (fd < 0)
+		exit(1);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+}
+
+void	handle_redir_out(t_redir *redir, int append)
+{
+	int	fd;
+
+	fd = open_outfile(redir->file, append);
+	if (fd < 0)
+		exit(1);
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+}
+
+void	handle_heredoc_redir(t_redir *redir)
+{
+	int	fd;
+
+	fd = handle_heredoc(redir->file);
+	if (fd < 0)
+		exit(1);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+}
+
+void	setup_redirections(t_redir *redirs)
+{
+	t_redir	*current;
+
+	current = redirs;
+	while (current)
+	{
+		if (current->type == TOKEN_REDIR_IN)
+			handle_redir_in(current);
+		else if (current->type == TOKEN_REDIR_OUT)
+			handle_redir_out(current, 0);
+		else if (current->type == TOKEN_APPEND)
+			handle_redir_out(current, 1);
+		else if (current->type == TOKEN_HEREDOC)
+			handle_heredoc_redir(current);
+		current = current->next;
+	}
+}
