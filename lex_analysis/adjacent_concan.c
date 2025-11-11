@@ -6,7 +6,7 @@
 /*   By: zzhyrgal <zzhyrgal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/03 09:11:43 by zzhyrgal          #+#    #+#             */
-/*   Updated: 2025/11/11 16:24:22 by zzhyrgal         ###   ########.fr       */
+/*   Updated: 2025/11/11 21:52:47 by zzhyrgal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,71 +31,101 @@ static void append_to_token_value(t_token *token, const char *add)
     if (!newv)
         return;
     if (token->value)
-        memcpy(newv, token->value, a);
+        ft_memcpy(newv, token->value, a);
     if (b > 0)
-        memcpy(newv + a, add, b);
+        ft_memcpy(newv + a, add, b);
     newv[a + b] = '\0';
     if (token->value)
         free(token->value);
     token->value = newv;
 }
 
-/* Collect adjacent parts after a quoted token: unquoted word parts or further
-   quoted parts should be concatenated into the same token value until a
-   delimiter (space or operator) is reached. Returns number of characters
-   consumed beyond `pos` (pos is index of the first char to examine). */
-int  collect_adjacent_parts(t_token *token, char *input, int pos)
+static int	collect_single_quoted_part(t_token *token, char *input, int pos)
 {
-    int start = pos;
-    int j;
-    char *part;
+    int		j;
+    char	*part;
 
+    j = pos + 1;
+    while (input[j] && input[j] != '\'')
+        j++;
+    if (!input[j])
+        return (-1);
+    part = ft_substr(input, pos + 1, j - pos - 1);
+    if (part)
+    {
+        append_to_token_value(token, part);
+        free(part);
+    }
+    return (j + 1);
+}
+
+static int	collect_double_quoted_part(t_token *token, char *input, int pos)
+{
+    int		j;
+    char	*part;
+
+    j = pos + 1;
+    while (input[j] && input[j] != '"')
+        j++;
+    if (!input[j])
+        return (-1);
+    part = ft_substr(input, pos + 1, j - pos - 1);
+    if (part)
+    {
+        append_to_token_value(token, part);
+        free(part);
+    }
+    return (j + 1);
+}
+
+static int	collect_unquoted_part(t_token *token, char *input, int pos)
+{
+    int		j;
+    char	*part;
+
+    j = pos;
+    while (input[j] && input[j] != '\'' && input[j] != '"' &&
+        !is_delim_char(input[j]))
+        j++;
+    if (j == pos)
+        return (pos);
+    part = ft_substr(input, pos, j - pos);
+    if (part)
+    {
+        append_to_token_value(token, part);
+        free(part);
+    }
+    return (j);
+}
+
+int	collect_adjacent_parts(t_token *token, char *input, int pos)
+{
+    int	start;
+    int	new_pos;
+
+    start = pos;
     while (input[pos] && !is_delim_char(input[pos]))
     {
         if (input[pos] == '\'')
         {
-            j = pos + 1;
-            while (input[j] && input[j] != '\'')
-                j++;
-            if (!input[j])
-                break; /* unmatched quote -> stop concatenation; caller handles error */
-            part = ft_substr(input, pos + 1, j - pos - 1);
-            if (part)
-            {
-                append_to_token_value(token, part);
-                free(part);
-            }
-            pos = j + 1;
+            new_pos = collect_single_quoted_part(token, input, pos);
+            if (new_pos == -1)
+                break ;
+            pos = new_pos;
         }
         else if (input[pos] == '"')
         {
-            j = pos + 1;
-            while (input[j] && input[j] != '"')
-                j++;
-            if (!input[j])
-                break;
-            part = ft_substr(input, pos + 1, j - pos - 1);
-            if (part)
-            {
-                append_to_token_value(token, part);
-                free(part);
-            }
-            pos = j + 1;
+            new_pos = collect_double_quoted_part(token, input, pos);
+            if (new_pos == -1)
+                break ;
+            pos = new_pos;
         }
         else
         {
-            j = pos;
-            while (input[j] && input[j] != '\'' && input[j] != '"' && !is_delim_char(input[j]))
-                j++;
-            if (j == pos)
-                break;
-            part = ft_substr(input, pos, j - pos);
-            if (part)
-            {
-                append_to_token_value(token, part);
-                free(part);
-            }
-            pos = j;
+            new_pos = collect_unquoted_part(token, input, pos);
+            if (new_pos == pos)
+                break ;
+            pos = new_pos;
         }
     }
     return (pos - start);

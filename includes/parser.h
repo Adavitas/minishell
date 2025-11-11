@@ -6,7 +6,7 @@
 /*   By: zzhyrgal <zzhyrgal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 08:32:45 by zzhyrgal          #+#    #+#             */
-/*   Updated: 2025/11/11 17:21:30 by zzhyrgal         ###   ########.fr       */
+/*   Updated: 2025/11/11 20:13:27 by zzhyrgal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ typedef struct s_ast
 	struct s_ast	*right;
 }	t_ast;
 
-/* Parser function prototypes */
 char		**store_avs(t_token **tokens);
 t_ast		*create_ast_node(t_node_type type);
 t_ast		*create_command_node(t_token **tokens);

@@ -6,7 +6,7 @@
 #    By: zzhyrgal <zzhyrgal@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/11 00:00:00 by zzhyrgal          #+#    #+#              #
-#    Updated: 2025/11/11 17:21:31 by zzhyrgal         ###   ########.fr        #
+#    Updated: 2025/11/11 22:00:42 by zzhyrgal         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,6 +63,7 @@ LIBFT_SRCS = libft/ft_atoi.c \
 			 libft/ft_strlen.c \
 			 libft/ft_strnstr.c \
 			 libft/ft_substr.c \
+			 libft/ft_memcpy.c \
 			 libft/get_next_line.c
 
 # Object files

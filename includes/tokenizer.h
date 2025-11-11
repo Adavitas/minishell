@@ -6,7 +6,7 @@
 /*   By: zzhyrgal <zzhyrgal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 18:55:37 by zzhyrgal          #+#    #+#             */
-/*   Updated: 2025/11/11 17:21:30 by zzhyrgal         ###   ########.fr       */
+/*   Updated: 2025/11/11 21:48:18 by zzhyrgal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "libft.h"
+
 
 /* Token types - Detect: WORD, QUOTES, OPERATORS, ENV VARIABLES REF */
 typedef enum e_token_type

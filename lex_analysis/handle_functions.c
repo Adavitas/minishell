@@ -6,32 +6,32 @@
 /*   By: zzhyrgal <zzhyrgal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 19:17:58 by zzhyrgal          #+#    #+#             */
-/*   Updated: 2025/11/11 17:21:31 by zzhyrgal         ###   ########.fr       */
+/*   Updated: 2025/11/11 20:12:35 by zzhyrgal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
 
-t_quote_token *store_quote(char *str, t_quote_type qtype)
+t_quote_token	*store_quote(char *str, t_quote_type qtype)
 {
-    t_quote_token *q;
-
-    q = malloc(sizeof(t_quote_token));
-    if(!q)
-        return NULL;
-    q->value = str;
-    q->qtype = qtype;
-    q->next = NULL;
-    return(q);
+	t_quote_token	*q;
+	
+	q = malloc(sizeof(t_quote_token));
+	if (!q)
+		return NULL;
+	q->value = str;
+	q->qtype = qtype;
+	q->next = NULL;
+	return(q);
 }
 
-t_token *make_main_token_single(char *single_quote)
+t_token	*make_main_token_single(char *single_quote)
 {
-    t_token *token;
-    t_quote_token *quote_str;
-
-    token = malloc(sizeof(t_token));
-    if(!token)
+	t_token *token;
+	t_quote_token *quote_str;
+	
+	token = malloc(sizeof(t_token));
+	if(!token)
         return NULL;
     quote_str = store_quote(single_quote, SINGLE_QUOTE);
     if(!quote_str)

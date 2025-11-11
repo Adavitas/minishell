@@ -34,5 +34,7 @@ char	*ft_strdup(const char *s1);
 char	*get_next_line(int fd);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_atoi(const char *str);
+int     ft_isspace(int c);
+void	*ft_memcpy(void *dest_str, const void *src_str, size_t n);
 
 #endif

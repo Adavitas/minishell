@@ -23,6 +23,7 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <ctype.h>
 # include "libft.h"
 # include "tokenizer.h"
 # include "parser.h"
