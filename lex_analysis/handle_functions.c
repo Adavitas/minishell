@@ -6,7 +6,7 @@
 /*   By: zzhyrgal <zzhyrgal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 19:17:58 by zzhyrgal          #+#    #+#             */
-/*   Updated: 2025/11/11 16:24:13 by zzhyrgal         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:21:31 by zzhyrgal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_token *make_main_token_single(char *single_quote)
         return NULL;
     }
     token->value = ft_strdup(single_quote); //not to doubele free;
-    token->type = WORD;
+    token->type = TOKEN_WORD;
     token->quote = quote_str; //original str, separate pointer from token->value;
     token->next = NULL;
     return(token);
@@ -90,7 +90,7 @@ t_token *make_main_token_double(char *double_quote)
         return NULL;
     }
     token->value = ft_strdup(double_quote);
-    token->type = WORD;
+    token->type = TOKEN_WORD;
     token->quote = quote_str;
     token->next = NULL;
     return(token);
@@ -136,7 +136,7 @@ int handle_pipe(t_token **token_list, char *input)
     pipe_str = ft_substr(input, 0, len); //mem allocated in ft;
     if(!pipe_str)
         return(0);
-    token = create_token(pipe_str, PIPE); //t_token token has memory ownership;
+    token = create_token(pipe_str, TOKEN_PIPE); //t_token token has memory ownership;
     if(!token)
     {
         free(pipe_str);
@@ -150,7 +150,7 @@ int handle_pipe(t_token **token_list, char *input)
 int handle_redirect(t_token **token_list, char *input)
 {
     int len;
-    t_tokentype type;
+    t_token_type type;
     char *redir;
     t_token *token;
     
@@ -187,7 +187,7 @@ int handle_word(t_token **token_list, char *input)
     word_str = ft_substr(input, 0, i);
     if(!word_str)
         return(0);
-    token = create_token(word_str, WORD);
+    token = create_token(word_str, TOKEN_WORD);
     if(!token)
     {
         free(word_str);

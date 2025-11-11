@@ -3,18 +3,19 @@
 static int	process_line(char *line, t_env *env, int last_status)
 {
 	t_token	*tokens;
-	t_cmd	*cmds;
+	t_ast	*ast;
 	int		status;
 
-	tokens = tokenize(line);
+	(void)last_status;
+	tokens = tokenize_input(line);
 	if (!tokens)
 		return (last_status);
-	cmds = parse(tokens, env, last_status);
-	free_tokens(tokens);
-	if (!cmds)
+	ast = syntax_analysis(&tokens);
+	free_tokens(&tokens);
+	if (!ast)
 		return (last_status);
-	status = execute(cmds, env);
-	free_cmds(cmds);
+	status = execute_ast(ast, env);
+	free_ast(ast);
 	return (status);
 }
 

@@ -6,7 +6,7 @@
 /*   By: zzhyrgal <zzhyrgal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 18:55:25 by zzhyrgal          #+#    #+#             */
-/*   Updated: 2025/11/11 16:23:27 by zzhyrgal         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:21:30 by zzhyrgal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,19 @@ int is_redirect(const char *str)
     return (0);
 }
 
-t_tokentype get_op_type(char *token)
+t_token_type get_op_type(char *token)
 {
     if(!token)
-        return(WORD);
+        return(TOKEN_WORD);
     if(ft_strcmp(token, "|") == 0)
-        return(PIPE);
+        return(TOKEN_PIPE);
     else if(ft_strcmp(token, "<") == 0)
-        return(REDIR_IN);
+        return(TOKEN_REDIR_IN);
     else if(ft_strcmp(token, ">") == 0)
-        return(REDIR_OUT);
+        return(TOKEN_REDIR_OUT);
     else if(ft_strcmp(token, ">>") == 0)
-        return(APPEND);
+        return(TOKEN_APPEND);
     else if(ft_strcmp(token, "<<") == 0)
-        return(HEREDOC);
-    return(WORD); /*shells usually just treat unexpected sequences as words*/
+        return(TOKEN_HEREDOC);
+    return(TOKEN_WORD); /*shells usually just treat unexpected sequences as words*/
 }

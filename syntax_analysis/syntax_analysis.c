@@ -6,55 +6,11 @@
 /*   By: zzhyrgal <zzhyrgal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 08:35:11 by zzhyrgal          #+#    #+#             */
-/*   Updated: 2025/11/11 16:21:09 by zzhyrgal         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:21:31 by zzhyrgal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-static void free_argv(char **argv)
-{
-    int i;
-
-    if (!argv)
-        return;
-    i = 0;
-    while (argv[i])
-    {
-        free(argv[i]);
-        i++;
-    }
-    free(argv);
-}
-
-static void free_redirs(t_redir *r)
-{
-    t_redir *tmp;
-    while (r)
-    {
-        tmp = r->next;
-        free(r->filename);
-        free(r);
-        r = tmp;
-    }
-}
-
-void free_ast(t_ast *ast)
-{
-    if (!ast)
-        return;
-
-    /* free children first */
-    free_ast(ast->left);
-    free_ast(ast->right);
-
-    /* free node contents */
-    free_argv(ast->argv);
-    free_redirs(ast->redirections);
-
-    /* free node itself */
-    free(ast);
-}
 
 t_ast *parse_pipeline(t_token **tokens)
 {
@@ -67,7 +23,7 @@ t_ast *parse_pipeline(t_token **tokens)
     left = parse_command(tokens); //consume initial command and words;
     if(!left)
         return (NULL);
-    while(*tokens && (*tokens)->type  == PIPE)
+    while(*tokens && (*tokens)->type  == TOKEN_PIPE)
     {
         *tokens = (*tokens)->next;
         right = parse_command(tokens);

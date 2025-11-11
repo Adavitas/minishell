@@ -12,36 +12,11 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
+# include "tokenizer.h"
+# include "parser.h"
 # include "ast_types.h"
 
-/* Token types */
-typedef enum e_token_type
-{
-	TOKEN_WORD,
-	TOKEN_PIPE,
-	TOKEN_REDIR_IN,
-	TOKEN_REDIR_OUT,
-	TOKEN_APPEND,
-	TOKEN_HEREDOC,
-}	t_token_type;
-
-/* Token structure */
-typedef struct s_token
-{
-	t_token_type	type;
-	char			*value;
-	struct s_token	*next;
-}	t_token;
-
-/* Redirection structure */
-typedef struct s_redir
-{
-	t_token_type	type;
-	char			*file;
-	struct s_redir	*next;
-}	t_redir;
-
-/* Command structure */
+/* Command structure for execution */
 typedef struct s_cmd
 {
 	char			**args;
@@ -69,10 +44,11 @@ extern int	g_signal_received;
 
 /* ========== EXECUTOR ========== */
 int			execute(t_cmd *cmds, t_env *env);
+int			execute_ast(t_ast *ast, t_env *env);
 char		*get_command_path(char *command, t_env *env);
 void		execute_command(char **args, t_env *env);
 
-/* ========== PIPELINE ========== */
+/* ========== PIPELINE & REDIRECTIONS ========== */
 int			execute_pipeline(t_cmd *cmds, t_env *env);
 void		setup_redirections(t_redir *redirs);
 int			open_infile(char *path);
@@ -85,17 +61,16 @@ void		handle_heredoc_redir(t_redir *redir);
 /* ========== AST HELPERS ========== */
 void		setup_child_io(int fd_in, int fd_out);
 void		restore_fds(int stdin_backup, int stdout_backup);
-void		execute_ast_child(t_ast_node *node, t_env *env, int fd_in,
-				int fd_out);
-int			execute_builtin_ast(t_ast_node *node, t_env *env, int last_status);
-int			execute_builtin_with_redirs_ast(t_ast_node *node, t_env *env,
+void		execute_ast_child(t_ast *node, t_env *env, int fd_in, int fd_out);
+int			execute_builtin_ast(t_ast *node, t_env *env, int last_status);
+int			execute_builtin_with_redirs_ast(t_ast *node, t_env *env,
 				int last_status);
-void		fork_left_child(t_ast_node *pipe_node, t_env *env, int fd_in,
+void		fork_left_child(t_ast *pipe_node, t_env *env, int fd_in,
 				int pipefd[2]);
-int			fork_right_child(t_ast_node *pipe_node, t_env *env, int fd_in,
+int			fork_right_child(t_ast *pipe_node, t_env *env, int fd_in,
 				int pipefd[2]);
-int			execute_pipe_node(t_ast_node *pipe_node, t_env *env, int fd_in);
-int			execute_ast_recursive(t_ast_node *node, t_env *env, int fd_in,
+int			execute_pipe_node(t_ast *pipe_node, t_env *env, int fd_in);
+int			execute_ast_recursive(t_ast *node, t_env *env, int fd_in,
 				int fd_out);
 
 /* ========== BUILTINS ========== */
@@ -122,16 +97,13 @@ void		setup_signals(void);
 void		setup_child_signals(void);
 
 /* ========== LEXER & PARSER ========== */
-t_token		*tokenize(char *input);
-void		free_tokens(t_token *tokens);
-t_cmd		*parse(t_token *tokens, t_env *env, int last_status);
 void		free_cmds(t_cmd *cmds);
 char		*expand_vars(char *str, t_env *env, int last_status);
+t_cmd		*parse(t_token *tokens, t_env *env, int last_status);
 
 /* ========== UTILS ========== */
 void		ft_error(char *msg, int code);
 void		print_error(char *cmd, char *arg, char *msg);
-int			ft_strcmp(const char *s1, const char *s2);
 int			ft_arraylen(char **array);
 void		free_array(char **array);
 

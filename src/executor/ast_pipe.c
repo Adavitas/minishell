@@ -1,7 +1,7 @@
 #include "minishell.h"
 #include "ast_types.h"
 
-void	fork_left_child(t_ast_node *pipe_node, t_env *env, int fd_in,
+void	fork_left_child(t_ast *pipe_node, t_env *env, int fd_in,
 	int pipefd[2])
 {
 	pid_t	pid_left;
@@ -15,7 +15,7 @@ void	fork_left_child(t_ast_node *pipe_node, t_env *env, int fd_in,
 	}
 }
 
-int	fork_right_child(t_ast_node *pipe_node, t_env *env, int fd_in,
+int	fork_right_child(t_ast *pipe_node, t_env *env, int fd_in,
 	int pipefd[2])
 {
 	pid_t	pid_right;
@@ -39,7 +39,7 @@ int	fork_right_child(t_ast_node *pipe_node, t_env *env, int fd_in,
 	return (status);
 }
 
-int	execute_pipe_node(t_ast_node *pipe_node, t_env *env, int fd_in)
+int	execute_pipe_node(t_ast *pipe_node, t_env *env, int fd_in)
 {
 	int		pipefd[2];
 	int		status;

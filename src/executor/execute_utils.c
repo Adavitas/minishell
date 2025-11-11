@@ -7,7 +7,7 @@ static void	free_cmd_redirs(t_redir *redir)
 	while (redir)
 	{
 		next_redir = redir->next;
-		free(redir->file);
+		free(redir->filename);
 		free(redir);
 		redir = next_redir;
 	}

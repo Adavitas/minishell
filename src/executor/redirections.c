@@ -4,7 +4,7 @@ void	handle_redir_in(t_redir *redir)
 {
 	int	fd;
 
-	fd = open_infile(redir->file);
+	fd = open_infile(redir->filename);
 	if (fd < 0)
 		exit(1);
 	dup2(fd, STDIN_FILENO);
@@ -15,7 +15,7 @@ void	handle_redir_out(t_redir *redir, int append)
 {
 	int	fd;
 
-	fd = open_outfile(redir->file, append);
+	fd = open_outfile(redir->filename, append);
 	if (fd < 0)
 		exit(1);
 	dup2(fd, STDOUT_FILENO);
@@ -26,7 +26,7 @@ void	handle_heredoc_redir(t_redir *redir)
 {
 	int	fd;
 
-	fd = handle_heredoc(redir->file);
+	fd = handle_heredoc(redir->filename);
 	if (fd < 0)
 		exit(1);
 	dup2(fd, STDIN_FILENO);
@@ -40,13 +40,13 @@ void	setup_redirections(t_redir *redirs)
 	current = redirs;
 	while (current)
 	{
-		if (current->type == TOKEN_REDIR_IN)
+		if (current->type == NODE_REDIR_IN)
 			handle_redir_in(current);
-		else if (current->type == TOKEN_REDIR_OUT)
+		else if (current->type == NODE_REDIR_OUT)
 			handle_redir_out(current, 0);
-		else if (current->type == TOKEN_APPEND)
+		else if (current->type == NODE_APPEND)
 			handle_redir_out(current, 1);
-		else if (current->type == TOKEN_HEREDOC)
+		else if (current->type == NODE_HEREDOC)
 			handle_heredoc_redir(current);
 		current = current->next;
 	}

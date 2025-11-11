@@ -6,13 +6,13 @@
 /*   By: zzhyrgal <zzhyrgal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 19:18:07 by zzhyrgal          #+#    #+#             */
-/*   Updated: 2025/11/11 16:24:03 by zzhyrgal         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:21:31 by zzhyrgal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
 
-t_token *create_token(char *value, t_tokentype type)
+t_token *create_token(char *value, t_token_type type)
 {
     t_token *new_node;
     new_node = malloc(sizeof(t_token));

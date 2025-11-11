@@ -6,11 +6,12 @@
 /*   By: zzhyrgal <zzhyrgal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/15 18:55:16 by zzhyrgal          #+#    #+#             */
-/*   Updated: 2025/11/11 16:23:54 by zzhyrgal         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:21:31 by zzhyrgal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenizer.h"
+#include <ctype.h>
 
 int tokenize(t_token **token_list, char *str)
 {
@@ -56,7 +57,7 @@ t_token *tokenize_input(char *input)
         }
         input += consumed;
     }
-    print_tokens(token_list);
+    // print_tokens(token_list);  // Debug function - commented out
     //free_tokens(&token_list);
     return(token_list);
 }

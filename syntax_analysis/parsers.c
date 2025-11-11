@@ -6,21 +6,21 @@
 /*   By: zzhyrgal <zzhyrgal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 19:03:58 by zzhyrgal          #+#    #+#             */
-/*   Updated: 2025/11/11 15:39:54 by zzhyrgal         ###   ########.fr       */
+/*   Updated: 2025/11/11 17:21:31 by zzhyrgal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int is_redirection(t_tokentype type)
+int is_redirection(t_token_type type)
 {
-    if(type == REDIR_IN)
+    if(type == TOKEN_REDIR_IN)
         return(1);
-    else if(type == REDIR_OUT)
+    else if(type == TOKEN_REDIR_OUT)
         return(1);
-    else if(type == APPEND)
+    else if(type == TOKEN_APPEND)
         return(1);
-    else if(type == HEREDOC)
+    else if(type == TOKEN_HEREDOC)
         return(1);
     return(0);
 }
@@ -30,13 +30,13 @@ t_node_type detect_redir_type(t_token *tokens)
     if(!tokens)
         return (NODE_INVALID); //made changes from agent
 
-    if((tokens)->type == REDIR_IN)
+    if((tokens)->type == TOKEN_REDIR_IN)
         return(NODE_REDIR_IN);
-    else if((tokens)->type == REDIR_OUT)
+    else if((tokens)->type == TOKEN_REDIR_OUT)
         return(NODE_REDIR_OUT);
-    else if((tokens)->type == APPEND)
+    else if((tokens)->type == TOKEN_APPEND)
         return(NODE_APPEND);
-    else if((tokens)->type == HEREDOC)
+    else if((tokens)->type == TOKEN_HEREDOC)
         return(NODE_HEREDOC);
     return(NODE_INVALID);
 }
@@ -66,7 +66,7 @@ t_ast *parse_command(t_token **tokens)
     t_redir *redir_list = NULL;
     t_node_type redir_type;
 
-    if(!*tokens ||(*tokens)->type != WORD)
+    if(!*tokens ||(*tokens)->type != TOKEN_WORD)
         return (NULL);
     
     command_node = create_command_node(tokens); //do i need to move tokens' pos;

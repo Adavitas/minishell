@@ -30,20 +30,20 @@ static void	free_redirs(t_redir *redir)
 	while (redir)
 	{
 		next_redir = redir->next;
-		free(redir->file);
+		free(redir->filename);
 		free(redir);
 		redir = next_redir;
 	}
 }
 
-void	free_ast(t_ast_node *node)
+void	free_ast(t_ast *node)
 {
 	if (!node)
 		return ;
 	free_ast(node->left);
 	free_ast(node->right);
-	if (node->args)
-		free_array(node->args);
-	free_redirs(node->redirs);
+	if (node->argv)
+		free_array(node->argv);
+	free_redirs(node->redirections);
 	free(node);
 }
