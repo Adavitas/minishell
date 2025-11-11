@@ -1,0 +1,26 @@
+# Test files
+test_executor
+test_executor.c
+test_signals
+test_signals.c
+test_eee
+test_eee.c
+test_nen
+test_nen.c
+test_En
+test_En.c
+test_echo
+compile_test.sh
+
+# Object files
+*.o
+*.a
+
+# Executables
+minishell
+a.out
+
+# Editor files
+.vscode/
+*.swp
+*~
