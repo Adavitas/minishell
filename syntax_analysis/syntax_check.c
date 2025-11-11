@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zzhyrgal <zzhyrgal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adavitas <adavitas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 08:35:29 by zzhyrgal          #+#    #+#             */
-/*   Updated: 2025/11/11 17:21:31 by zzhyrgal         ###   ########.fr       */
+/*   Updated: 2025/11/11 19:04:26 by adavitas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ int syntax_check(t_token **tokens)
     if(tokens == NULL || *tokens == NULL)
         return(0);
     current = *tokens;
-    if(!current->next)
-        return(0);
     if(current->type == TOKEN_PIPE || current->type == TOKEN_UNKNOWN)
         return(0);
     while(current)

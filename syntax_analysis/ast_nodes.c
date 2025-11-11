@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_nodes.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zzhyrgal <zzhyrgal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: adavitas <adavitas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/31 09:10:37 by zzhyrgal          #+#    #+#             */
-/*   Updated: 2025/11/11 17:21:31 by zzhyrgal         ###   ########.fr       */
+/*   Updated: 2025/11/11 19:04:26 by adavitas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char **store_avs(t_token **tokens)
     i = 0;
     while(*tokens && (*tokens)->type == TOKEN_WORD)
     {
-        av[i++] = strdup((*tokens)->value);
+        av[i++] = ft_strdup((*tokens)->value);
         *tokens = (*tokens)->next;
     }
     av[i] = NULL;
@@ -84,7 +84,7 @@ t_redir *create_redir(t_node_type type, t_token **tokens)
     if(!redir_node)
         return (NULL);
     redir_node->type = type;
-    redir_node->filename = strdup((*tokens)->next->value);
+    redir_node->filename = ft_strdup((*tokens)->next->value);
     if(!redir_node->filename)
     {
         free(redir_node);
