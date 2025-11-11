@@ -20,15 +20,15 @@ LIBS = -lreadline
 
 # Source files
 SRCS = main.c \
-	   lex_analysis/tokenizer.c \
-	   lex_analysis/tokens_types.c \
-	   lex_analysis/handle_functions.c \
-	   lex_analysis/manage_lists.c \
-	   lex_analysis/adjacent_concan.c \
-	   syntax_analysis/syntax_check.c \
-	   syntax_analysis/syntax_analysis.c \
-	   syntax_analysis/parsers.c \
-	   syntax_analysis/ast_nodes.c \
+	   src/lex_analysis/tokenizer.c \
+	   src/lex_analysis/tokens_types.c \
+	   src/lex_analysis/handle_functions.c \
+	   src/lex_analysis/manage_lists.c \
+	   src/lex_analysis/adjacent_concan.c \
+	   src/syntax_analysis/syntax_check.c \
+	   src/syntax_analysis/syntax_analysis.c \
+	   src/syntax_analysis/parsers.c \
+	   src/syntax_analysis/ast_nodes.c \
 	   src/executor/execute_cmd.c \
 	   src/executor/execute_utils.c \
 	   src/executor/path.c \
