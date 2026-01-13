@@ -6,7 +6,7 @@
 /*   By: adavitas <adavitas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 18:14:51 by adavitas          #+#    #+#             */
-/*   Updated: 2025/11/11 18:14:54 by adavitas         ###   ########.fr       */
+/*   Updated: 2025/11/17 19:03:28 by adavitas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,11 @@ static int	execute_external(t_cmd *cmds, t_env *env)
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGQUIT)
+			write(STDERR_FILENO, "Quit (core dumped)\n", 19);
 		return (128 + WTERMSIG(status));
+	}
 	return (0);
 }
 

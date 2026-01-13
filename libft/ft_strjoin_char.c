@@ -1,24 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_types.h                                        :+:      :+:    :+:   */
+/*   ft_strjoin_char.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adavitas <adavitas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/11 18:12:57 by adavitas          #+#    #+#             */
-/*   Updated: 2025/11/11 18:12:58 by adavitas         ###   ########.fr       */
+/*   Created: 2025/11/12 00:00:00 by adavitas          #+#    #+#             */
+/*   Updated: 2025/11/17 18:59:11 by adavitas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AST_TYPES_H
-# define AST_TYPES_H
+#include "libft.h"
 
-# include "parser.h"
+char	*ft_strjoin_char(char const *s, char c)
+{
+	char	*result;
+	size_t	len;
+	size_t	i;
 
-/* Forward declaration */
-typedef struct s_env	t_env;
-
-/* AST execution prototypes */
-int		execute_ast(t_ast *ast, t_env *env);
-
-#endif
+	if (!s)
+		return (NULL);
+	len = ft_strlen(s);
+	result = malloc(sizeof(char) * (len + 2));
+	if (!result)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		result[i] = s[i];
+		i++;
+	}
+	result[i] = c;
+	result[i + 1] = '\0';
+	return (result);
+}

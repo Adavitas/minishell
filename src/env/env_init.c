@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: adavitas <adavitas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/10 00:00:00 by adavitas          #+#    #+#             */
-/*   Updated: 2025/11/11 18:14:21 by adavitas         ###   ########.fr       */
+/*   Created: 2025/11/10 00:10:09 by adavitas          #+#    #+#             */
+/*   Updated: 2025/11/19 21:49:52 by adavitas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,26 @@ static void	add_env_var(t_env *env, char *entry)
 	}
 }
 
+static void	increment_shlvl(t_env *env)
+{
+	char	*shlvl_str;
+	int		shlvl;
+	char	*new_shlvl;
+
+	shlvl_str = get_env_value(env, "SHLVL");
+	if (!shlvl_str)
+		shlvl = 0;
+	else
+		shlvl = ft_atoi(shlvl_str);
+	shlvl++;
+	new_shlvl = ft_itoa(shlvl);
+	if (new_shlvl)
+	{
+		set_env_value(env, "SHLVL", new_shlvl);
+		free(new_shlvl);
+	}
+}
+
 t_env	*init_env(char **envp)
 {
 	t_env	*env;
@@ -77,6 +97,7 @@ t_env	*init_env(char **envp)
 		add_env_var(env, envp[i]);
 		i++;
 	}
+	increment_shlvl(env);
 	env->envp_array = env_to_array(env);
 	return (env);
 }

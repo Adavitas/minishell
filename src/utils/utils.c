@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adavitas <adavitas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zzhyrgal <zzhyrgal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 18:44:14 by adavitas          #+#    #+#             */
-/*   Updated: 2025/11/11 18:44:15 by adavitas         ###   ########.fr       */
+/*   Updated: 2025/11/21 01:00:38 by zzhyrgal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_error(char *msg, int code)
-{
-	ft_putstr_fd(msg, 2);
-	exit(code);
-}
 
 void	print_error(char *cmd, char *arg, char *msg)
 {
@@ -35,16 +29,6 @@ void	print_error(char *cmd, char *arg, char *msg)
 	ft_putstr_fd("\n", 2);
 }
 
-int	ft_arraylen(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array && array[i])
-		i++;
-	return (i);
-}
-
 void	free_array(char **array)
 {
 	int	i;
@@ -58,4 +42,18 @@ void	free_array(char **array)
 		i++;
 	}
 	free(array);
+}
+
+void	close_unused_fds(void)
+{
+	int	fd;
+	int	max_fd;
+
+	max_fd = 1024;
+	fd = 3;
+	while (fd < max_fd)
+	{
+		close(fd);
+		fd++;
+	}
 }

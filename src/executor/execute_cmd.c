@@ -6,7 +6,7 @@
 /*   By: adavitas <adavitas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 18:14:48 by adavitas          #+#    #+#             */
-/*   Updated: 2025/11/11 18:14:50 by adavitas         ###   ########.fr       */
+/*   Updated: 2025/11/18 22:22:23 by adavitas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	execute_absolute_path(char **args, t_env *env)
 		exit(126);
 	}
 	execve(args[0], args, env->envp_array);
-	print_error(args[0], NULL, "Execution failed");
+	print_error(args[0], NULL, "Is a directory");
 	exit(126);
 }
 
@@ -41,7 +41,7 @@ static void	execute_from_path(char **args, t_env *env)
 	}
 	execve(path, args, env->envp_array);
 	free(path);
-	print_error(args[0], NULL, "Execution failed");
+	print_error(args[0], NULL, "Is a directory");
 	exit(126);
 }
 

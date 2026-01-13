@@ -6,7 +6,7 @@
 /*   By: adavitas <adavitas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 18:13:06 by adavitas          #+#    #+#             */
-/*   Updated: 2025/11/11 18:13:07 by adavitas         ###   ########.fr       */
+/*   Updated: 2025/11/17 19:03:40 by adavitas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,10 @@ char	*ft_strdup(const char *s1);
 char	*get_next_line(int fd);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_atoi(const char *str);
-int     ft_isspace(int c);
+int		ft_isspace(int c);
+int		ft_isalnum(int c);
+char	*ft_itoa(int n);
+char	*ft_strjoin_char(char const *s, char c);
 void	*ft_memcpy(void *dest_str, const void *src_str, size_t n);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: adavitas <adavitas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 18:13:53 by adavitas          #+#    #+#             */
-/*   Updated: 2025/11/11 18:13:55 by adavitas         ###   ########.fr       */
+/*   Updated: 2025/11/17 18:59:56 by adavitas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,17 @@ int	builtin_exit(char **args, int last_status)
 	if (!is_numeric(args[1]))
 	{
 		print_error("exit", args[1], "numeric argument required");
-		exit(255);
+		exit(2);
 	}
 	if (args[2])
 	{
 		print_error("exit", NULL, "too many arguments");
 		return (1);
 	}
-	exit_code = ft_atoi(args[1]) % 256;
+	exit_code = ft_atoi(args[1]);
 	if (exit_code < 0)
-		exit_code += 256;
+		exit_code = 256 + (exit_code % 256);
+	else
+		exit_code = exit_code % 256;
 	exit(exit_code);
 }

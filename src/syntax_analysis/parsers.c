@@ -6,91 +6,68 @@
 /*   By: zzhyrgal <zzhyrgal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 19:03:58 by zzhyrgal          #+#    #+#             */
-/*   Updated: 2025/11/11 17:21:31 by zzhyrgal         ###   ########.fr       */
+/*   Updated: 2025/11/18 07:33:16 by zzhyrgal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int is_redirection(t_token_type type)
+static t_heredoc	*pop_heredoc(t_heredoc **list)
 {
-    if(type == TOKEN_REDIR_IN)
-        return(1);
-    else if(type == TOKEN_REDIR_OUT)
-        return(1);
-    else if(type == TOKEN_APPEND)
-        return(1);
-    else if(type == TOKEN_HEREDOC)
-        return(1);
-    return(0);
+	t_heredoc	*result;
+
+	if (!list || !*list)
+		return (NULL);
+	result = *list;
+	*list = (*list)->next;
+	result->next = NULL;
+	return (result);
 }
 
-t_node_type detect_redir_type(t_token *tokens)
+static void	handle_token_loop(t_token **tokens, t_heredoc **heredoc_list,
+		t_heredoc **heredoc_cmd_list, t_redir **redir_list)
 {
-    if(!tokens)
-        return (NODE_INVALID); //made changes from agent
+	t_node_type	redir_type;
 
-    if((tokens)->type == TOKEN_REDIR_IN)
-        return(NODE_REDIR_IN);
-    else if((tokens)->type == TOKEN_REDIR_OUT)
-        return(NODE_REDIR_OUT);
-    else if((tokens)->type == TOKEN_APPEND)
-        return(NODE_APPEND);
-    else if((tokens)->type == TOKEN_HEREDOC)
-        return(NODE_HEREDOC);
-    return(NODE_INVALID);
+	while (*tokens && (*tokens)->type != TOKEN_PIPE)
+	{
+		if ((*tokens)->type == TOKEN_WORD)
+			*tokens = (*tokens)->next;
+		else if (is_redirection((*tokens)->type))
+		{
+			redir_type = detect_redir_type(*tokens);
+			if (redir_type == NODE_HEREDOC)
+			{
+				*tokens = (*tokens)->next->next;
+				append_heredoc(heredoc_cmd_list, pop_heredoc(heredoc_list));
+			}
+			else
+				append_redir(redir_list, create_redir(redir_type, tokens));
+		}
+		else
+			break ;
+	}
 }
 
-void append_redir(t_redir **redir_list, t_redir *new_redir)
+t_ast	*parse_command(t_token **tokens, t_heredoc **heredoc_list)
 {
-    t_redir *tmp;
- 
-    if(!new_redir || !redir_list)
-        return ;
-    new_redir->next = NULL;
-    if(!*redir_list)
-    {
-        *redir_list = new_redir;
-        return;
-    }
-    tmp = *redir_list;
-    while(tmp->next)
-        tmp = tmp->next;
-    tmp->next = new_redir;
-}
+	t_ast		*command_node;
+	t_redir		*redir_list;
+	t_heredoc	*heredoc_cmd_list;
+	t_token		*word_start;
 
-t_ast *parse_command(t_token **tokens)
-{
-    t_ast *command_node;
-    t_redir *new_redir;
-    t_redir *redir_list = NULL;
-    t_node_type redir_type;
-
-    if(!*tokens ||(*tokens)->type != TOKEN_WORD)
-        return (NULL);
-    
-    command_node = create_command_node(tokens); //do i need to move tokens' pos;
-    if(!command_node)
-        return(NULL);
-    while(*tokens && is_redirection((*tokens)->type))
-    {
-        if(!(*tokens)->next)
-        {
-            fprintf(stderr, "error: missing filename after redirection\n");
-            return NULL;
-        }
-        redir_type = detect_redir_type(*tokens);
-        if(redir_type == (t_node_type)-1)
-        {
-            fprintf(stderr, "error: unknown redirection type\n");
-            return NULL;
-        }
-        new_redir = create_redir(redir_type, tokens);
-        if(!new_redir)
-            return (NULL);
-        append_redir(&redir_list, new_redir); //poss-multiply - ADVANCING token pointer???
-        //*tokens = (*tokens)->next->next;
-    }
-    command_node->redirections = redir_list;
-    return(command_node);
+	redir_list = NULL;
+	heredoc_cmd_list = NULL;
+	if (!*tokens || (*tokens)->type == TOKEN_PIPE)
+		return (NULL);
+	command_node = create_ast_node(NODE_COMMAND);
+	if (!command_node)
+		return (NULL);
+	word_start = *tokens;
+	handle_token_loop(tokens, heredoc_list, &heredoc_cmd_list, &redir_list);
+	command_node->quote_chains = store_quote_types(word_start);
+	command_node->argv = store_avs(&word_start);
+	command_node->redirections = redir_list;
+	command_node->heredocs = heredoc_cmd_list;
+	return (command_node);
 }

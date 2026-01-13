@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: zzhyrgal <zzhyrgal@student.42.fr>          +#+  +:+       +#+         #
+#    By: adavitas <adavitas@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/11 00:00:00 by zzhyrgal          #+#    #+#              #
-#    Updated: 2025/11/11 22:00:42 by zzhyrgal         ###   ########.fr        #
+#    Updated: 2025/11/18 21:56:17 by adavitas         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,26 +19,34 @@ INCLUDES = -I./includes
 LIBS = -lreadline
 
 # Source files
-SRCS = main.c \
+SRCS = src/minishell.c \
 	   src/lex_analysis/tokenizer.c \
 	   src/lex_analysis/tokens_types.c \
-	   src/lex_analysis/handle_functions.c \
+	   src/lex_analysis/process_tokens.c \
+	   src/lex_analysis/pro_single.c \
+	   src/lex_analysis/pro_double.c \
 	   src/lex_analysis/manage_lists.c \
-	   src/lex_analysis/adjacent_concan.c \
 	   src/syntax_analysis/syntax_check.c \
 	   src/syntax_analysis/syntax_analysis.c \
-	   src/syntax_analysis/parsers.c \
-	   src/syntax_analysis/ast_nodes.c \
+	src/syntax_analysis/parsers.c \
+	src/syntax_analysis/parser_helper.c \
+	src/syntax_analysis/collect_argvs.c \
+	src/syntax_analysis/store_quotes.c \
+	src/syntax_analysis/ast_node_utils.c \
 	   src/executor/execute_cmd.c \
 	   src/executor/execute_utils.c \
 	   src/executor/path.c \
 	   src/executor/redirections.c \
 	   src/executor/redir_files.c \
 	   src/executor/heredoc.c \
+	   src/executor/heredoc_utils.c \
+	   src/executor/heredoc_parse.c \
 	   src/executor/ast_executor.c \
 	   src/executor/ast_pipe.c \
 	   src/executor/ast_builtin.c \
 	   src/executor/ast_helpers.c \
+	   src/executor/ast_expand.c \
+	   src/executor/ast_expand_utils.c \
 	   src/builtins/builtin_utils.c \
 	   src/builtins/builtin_echo.c \
 	   src/builtins/builtin_cd.c \
@@ -48,6 +56,7 @@ SRCS = main.c \
 	   src/builtins/builtin_exit.c \
 	   src/env/env_init.c \
 	   src/env/env_utils.c \
+	   src/env/env_expand.c \
 	   src/utils/utils.c \
 	   src/utils/signals.c
 
@@ -64,6 +73,9 @@ LIBFT_SRCS = libft/ft_atoi.c \
 			 libft/ft_strnstr.c \
 			 libft/ft_substr.c \
 			 libft/ft_memcpy.c \
+			 libft/ft_isalnum.c \
+			 libft/ft_itoa.c \
+			 libft/ft_strjoin_char.c \
 			 libft/get_next_line.c
 
 # Object files
@@ -99,4 +111,15 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+bonus: all
+
+# Run with valgrind for memory leak detection
+valgrind: $(NAME)
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes \
+		--suppressions=readline.supp ./$(NAME)
+
+# Debug build with additional flags
+debug: CFLAGS += -g3 -fsanitize=address
+debug: re
+
+.PHONY: all clean fclean re bonus valgrind debug

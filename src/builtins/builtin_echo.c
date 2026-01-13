@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_echo.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: adavitas <adavitas@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zzhyrgal <zzhyrgal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 18:13:40 by adavitas          #+#    #+#             */
-/*   Updated: 2025/11/11 18:13:42 by adavitas         ###   ########.fr       */
+/*   Updated: 2025/11/16 16:35:03 by zzhyrgal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	builtin_echo(char **args)
 	int	i;
 	int	newline;
 
+	if (!args)
+		return (0);
 	i = 1;
 	newline = 1;
 	while (args[i] && is_valid_flag(args[i]))

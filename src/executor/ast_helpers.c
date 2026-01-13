@@ -6,12 +6,11 @@
 /*   By: adavitas <adavitas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/11 18:14:34 by adavitas          #+#    #+#             */
-/*   Updated: 2025/11/11 18:14:44 by adavitas         ###   ########.fr       */
+/*   Updated: 2025/11/17 19:02:02 by adavitas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "ast_types.h"
 
 void	setup_child_io(int fd_in, int fd_out)
 {
@@ -48,6 +47,21 @@ static void	free_redirs(t_redir *redir)
 	}
 }
 
+static void	free_quote_chains(t_quote_token **chains)
+{
+	int	i;
+
+	if (!chains)
+		return ;
+	i = 0;
+	while (chains[i])
+	{
+		free_quote_chain(chains[i]);
+		i++;
+	}
+	free(chains);
+}
+
 void	free_ast(t_ast *node)
 {
 	if (!node)
@@ -56,6 +70,9 @@ void	free_ast(t_ast *node)
 	free_ast(node->right);
 	if (node->argv)
 		free_array(node->argv);
+	if (node->quote_chains)
+		free_quote_chains(node->quote_chains);
 	free_redirs(node->redirections);
+	free_heredoc_list(node->heredocs);
 	free(node);
 }
