@@ -508,9 +508,11 @@ The project implements a subset of bash functionality. Not implemented:
 
 **Aleksandre Davitashvili** (Adavitas) - *42 Student*
 
+[![GitHub](https://img.shields.io/badge/GitHub-Adavitas-181717?style=flat&logo=github)](https://github.com/Adavitas)
+
 **Zhanat Zhyrgalbayeva** (zzhyrgal) - *42 Student*
 
-[![GitHub](https://img.shields.io/badge/GitHub-Adavitas-181717?style=flat&logo=github)](https://github.com/Adavitas)
+[![GitHub](https://img.shields.io/badge/GitHub-zhibeeek-181717?style=flat&logo=github)](https://github.com/zhibeeek)
 
 ---
 
