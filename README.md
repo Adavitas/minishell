@@ -30,7 +30,7 @@
 - [Author](#-author)
 - [License](#-license)
 
-![Image](https://github.com/user-attachments/assets/7fce8fa8-0509-47f4-a104-946bf8da3c3b)
+![Demo](https://github.com/user-attachments/assets/7fce8fa8-0509-47f4-a104-946bf8da3c3b)
 
 ---
 
