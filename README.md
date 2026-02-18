@@ -30,7 +30,7 @@
 - [Author](#-author)
 - [License](#-license)
 
-[Screencast from 2026-02-06 21-17-03.webm](https://github.com/user-attachments/assets/7fce8fa8-0509-47f4-a104-946bf8da3c3b)
+![Image](https://github.com/user-attachments/assets/7fce8fa8-0509-47f4-a104-946bf8da3c3b)
 
 ---
 
