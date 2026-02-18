@@ -30,8 +30,6 @@
 - [Author](#-author)
 - [License](#-license)
 
-![Screencastfrom2026-02-0621-17-03-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/27e6c6f4-101d-45e9-82d3-1c55c50481f6)
-
 ---
 
 ## 🎯 About
@@ -45,6 +43,8 @@
 - Manage environment variables and built-in commands
 - Implement proper signal handling
 - Ensure memory leak-free execution
+
+![Screencastfrom2026-02-0621-17-03-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/27e6c6f4-101d-45e9-82d3-1c55c50481f6)
 
 ---
 
