@@ -30,7 +30,7 @@
 - [Author](#-author)
 - [License](#-license)
 
-![Demo](https://github.com/user-attachments/assets/7fce8fa8-0509-47f4-a104-946bf8da3c3b)
+![Screencastfrom2026-02-0621-17-03-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/27e6c6f4-101d-45e9-82d3-1c55c50481f6)
 
 ---
 
